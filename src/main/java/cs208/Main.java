@@ -135,6 +135,10 @@ public class Main
 
                 //TODO: add your code here
 
+                case 31:
+                    menuAddNewStudentToClass();
+                    break;
+
 
                 default:
                     System.out.println("Invalid choice. Please enter a number such as 0, 1, 2, 10, 11, etc.");
@@ -337,5 +341,29 @@ public class Main
         System.out.println("Listing all registered students...");
         database.listAllRegisteredStudents();
     }
+
+    private static void menuAddNewStudentToClass()
+        {
+        System.out.println("Adding new student to class...");
+        int classID = 0;
+        int studentID = 0;
+
+            try
+            {
+                // TODO: add your code here
+                System.out.print("Enter the class ID: ");
+                classID = Integer.parseInt(inputScanner.nextLine());
+
+                System.out.print("Enter the students ID: ");
+                studentID = Integer.parseInt(inputScanner.nextLine());
+            }
+            catch (Exception e)
+            {
+                System.out.println("Invalid input, please try again.");
+                return;
+            }
+
+        database.RegisterNewStudent(classID, studentID);
+        }
 
 }

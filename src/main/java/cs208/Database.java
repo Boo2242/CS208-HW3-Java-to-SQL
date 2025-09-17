@@ -528,6 +528,45 @@ public class Database
         }
     }
 
+    public void RegisterNewStudent(int classID, int studentID)
+    {
+        String sql =
+                "INSERT INTO registered_students (class_id, student_id)\n" +
+                "VALUES (?, ?);";
+        try
+                (
+                        Connection connection = getDatabaseConnection();
+                        PreparedStatement sqlStatement = connection.prepareStatement(sql);
+                )
+        {
+            sqlStatement.setInt(1, classID);
+            sqlStatement.setInt(2, studentID);
+
+            int numberOfRowsAffected = sqlStatement.executeUpdate();
+            System.out.println("numberOfRowsAffected = " + numberOfRowsAffected);
+
+            if (numberOfRowsAffected > 0)
+            {
+                ResultSet resultSet = sqlStatement.getGeneratedKeys();
+
+                while (resultSet.next())
+                {
+                    // "last_insert_rowid()" is the column name that contains the id of the last inserted row
+                    // alternatively, we could have used resultSet.getInt(1); to get the id of the first column returned
+                    int generatedIdForTheNewlyInsertedClass = resultSet.getInt("last_insert_rowid()");
+                    System.out.println("SUCCESSFULLY inserted a student with id = " + studentID + " into class with id = " + classID);
+                }
+
+                resultSet.close();
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            System.out.println("!!! SQLException: failed to query the registered_students table. Make sure you executed the schema.sql and seeds.sql scripts");
+            System.out.println(sqlException.getMessage());
+        }
+    }
+
     private void printTableHeader(String[] listOfColumnNames)
     {
         System.out.print("| ");
