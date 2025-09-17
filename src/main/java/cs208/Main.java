@@ -139,6 +139,10 @@ public class Main
                     menuAddNewStudentToClass();
                     break;
 
+                case 32:
+                    menuRemoveStudentFromClass();
+                    break;
+
 
                 default:
                     System.out.println("Invalid choice. Please enter a number such as 0, 1, 2, 10, 11, etc.");
@@ -365,5 +369,27 @@ public class Main
 
         database.RegisterNewStudent(classID, studentID);
         }
+
+    private static void menuRemoveStudentFromClass()
+    {
+        System.out.println("Removing student from class...");
+        int classID = 0;
+        int studentID = 0;
+            try
+            {
+                // TODO: add your code here
+                System.out.print("Enter the class ID: ");
+                classID = Integer.parseInt(inputScanner.nextLine());
+
+                System.out.print("Enter the students ID: ");
+                studentID = Integer.parseInt(inputScanner.nextLine());
+            }
+            catch (Exception e)
+            {
+                System.out.println("Invalid input, please try again.");
+                return;
+            }
+        database.UnregisterNewStudent(classID, studentID);
+    }
 
 }

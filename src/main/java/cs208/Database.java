@@ -567,6 +567,40 @@ public class Database
         }
     }
 
+    public void UnregisterNewStudent(int classID, int studentID)
+    {
+        String sql =
+                "DELETE FROM registered_students\n" +
+                        "WHERE student_id = ? and class_id = ?;";
+
+        try
+                (
+                        Connection connection = getDatabaseConnection();
+                        PreparedStatement sqlStatement = connection.prepareStatement(sql);
+                )
+        {
+            sqlStatement.setInt(1, studentID);
+            sqlStatement.setInt(2, classID);
+
+            int numberOfRowsAffected = sqlStatement.executeUpdate();
+            System.out.println("numberOfRowsAffected = " + numberOfRowsAffected);
+
+            if (numberOfRowsAffected > 0)
+            {
+                System.out.println("SUCCESSFULLY deleted the student with id = " + studentID + " from class with id = " + classID);
+            }
+            else
+            {
+                System.out.println("!!! WARNING: failed to delete the student with id = " + studentID + " from class with id = " + classID);
+            }
+        }
+        catch (SQLException sqlException)
+        {
+            System.out.println("!!! SQLException: failed to delete the student with id = " + studentID + " from class with id = " + classID);
+            System.out.println(sqlException.getMessage());
+        }
+}
+
     private void printTableHeader(String[] listOfColumnNames)
     {
         System.out.print("| ");
